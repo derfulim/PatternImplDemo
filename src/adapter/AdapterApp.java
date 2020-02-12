@@ -2,20 +2,18 @@ package adapter;
 
 public class AdapterApp {
     public static void main(String[] args) {
-        AnalogVideoTransferInterface transferInterface = new SVGAtoDVIAdapter();
-        transferInterface.transferSignal();
+        AnalogSignalInterface adapter = new SVGAtoDVIAdapter();
+        adapter.transferAnalogSignal();
     }
-
 }
 
-interface AnalogVideoTransferInterface{
-    void transferSignal();
+interface AnalogSignalInterface{
+    void transferAnalogSignal();
 }
 
-class SVGA implements AnalogVideoTransferInterface{
-
+class SVGA implements AnalogSignalInterface{
     @Override
-    public void transferSignal(){
+    public void transferAnalogSignal(){
         System.out.println("Analog signal is transferring");
     }
 }
@@ -26,11 +24,11 @@ class DVI{
     }
 }
 
-class SVGAtoDVIAdapter extends SVGA{
+class SVGAtoDVIAdapter extends SVGA {
     DVI dvi = new DVI();
 
     @Override
-    public void transferSignal() {
+    public void transferAnalogSignal() {
         dvi.transferDigitalSignal();
     }
 }
