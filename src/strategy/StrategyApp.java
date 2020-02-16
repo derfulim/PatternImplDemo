@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+package strategy;
 
 public class StrategyApp {
     public static void main(String[] args) {
