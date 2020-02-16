@@ -4,31 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 
  public class TypographyApp{
-     Typography typography = new Typography();
-
+     public static void main(String[] args) {
+         Typography typography = new Typography();
+         typography.addSuscriber(new VillageSubscriber("Petro"));
+         typography.addSuscriber(new VillageSubscriber("Ivan"));
+         typography.addSuscriber(new VillageSubscriber("Dmytro"));
+         typography.setNewsPaper("Village Reader");
+         typography.setCirculation(typography.getSubscribers().size());
+         typography.sendPapersToSubscribers();
+     }
  }
 
  class Typography implements Subscribeable {
 
-    private List<Subscriber> subscribers;
+    private List<Subscriber> subscribers = new ArrayList<>();
+    private String newsPaper;
+    private int circulation;
+
+     public String getNewsPaper() {
+         return newsPaper;
+     }
+
+     public void setNewsPaper(String newsPaper) {
+         this.newsPaper = newsPaper;
+     }
+
+     public void setCirculation(int circulation) {
+         this.circulation = circulation;
+     }
+
+     public int getCirculation() {
+         return circulation;
+     }
 
      public List<Subscriber> getSubscribers() {
          return subscribers;
      }
-
      public void setSubscribers(List<Subscriber> subscribers) {
          this.subscribers = subscribers;
      }
-
-     private Circulation circulation;
-
-    public Circulation getCirculation() {
-        return circulation;
-    }
-
-    public void setCirculation(Circulation circulation) {
-        this.circulation = circulation;
-    }
 
     public Typography() {
         super();
@@ -45,43 +59,31 @@ import java.util.List;
     }
 
     @Override
-    public void sendPapersToSubscribers(Newspaper newspaper) {
-
+    public void sendPapersToSubscribers() {
+        System.out.println("Was printed " + this.getCirculation() + " pieces of newspaper " + this.getNewsPaper());
+        for (Subscriber subscriber:subscribers) {
+            subscriber.getNewspaper(this.getNewsPaper());
+        }
     }
-}
-
-class Circulation{
-    private int amount;
-    private Newspaper newspaper;
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public Newspaper getNewspaper() {
-        return newspaper;
-    }
-
-    Circulation(int amount, Newspaper newspaper) {
-        this.amount = amount;
-        this.newspaper = newspaper;
-    }
-
-
 }
 
 interface Subscriber{
-    void getNewspaper();
+    void getNewspaper(String newsPaper);
 }
 
 interface Subscribeable{
     void addSuscriber(Subscriber s);
     void removeSubscriber(Subscriber s);
-    void sendPapersToSubscribers(Newspaper newspaper);
+    void sendPapersToSubscribers();
 }
 
 class VillageSubscriber implements Subscriber {
     private String name;
+    private List<String> newspapers;
+
+    VillageSubscriber (String name) {
+            this.name = name;
+        }
 
     @Override
     public String toString() {
@@ -91,17 +93,10 @@ class VillageSubscriber implements Subscriber {
                 '}';
     }
 
-    VillageSubscriber (String name) {
-        this.name = name;
-    }
-
-    List<Newspaper> newspapers = new ArrayList<>();
-
     @Override
-    public void getNewspaper() {
+    public void getNewspaper(String newsPaper) {
+        System.out.println(this.name + " got an instance of " + newsPaper + " newsPaper");
     }
 
 
 }
-
-class Newspaper {}
