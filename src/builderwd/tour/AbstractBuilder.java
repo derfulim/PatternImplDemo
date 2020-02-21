@@ -1,4 +1,4 @@
-package builderwd;
+package builderwd.tour;
 
 public abstract class AbstractBuilder {
 

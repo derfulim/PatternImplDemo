@@ -1,4 +1,4 @@
-package builderwd;
+package builderwd.tour;
 
 public class TourApp {
     public static void main(String[] args) {

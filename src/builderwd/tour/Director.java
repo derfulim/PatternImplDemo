@@ -1,4 +1,4 @@
-package builderwd;
+package builderwd.tour;
 
 public class Director {
     AbstractBuilder builder;

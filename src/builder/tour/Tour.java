@@ -1,4 +1,4 @@
-package builder;
+package builder.tour;
 
 public class Tour {
 
