@@ -8,27 +8,26 @@ public class SaladApp {
         CustomerSalad salad = new CustomerSalad.CustomerSaladBuilder().
 //                setBaseIngredient(Ingredients.CHEESE).
 //                setBaseIngredient(Ingredients.CHICKEN).
-                setSauce(Ingredients.MAYONNAISE).
-                setOptionIngredient(Ingredients.SUNFLOWEROIL).
-                makeSalad()
-                ;
+        setSauce(Ingredients.MAYONNAISE).
+                        setOptionIngredient(Ingredients.SUNFLOWEROIL).
+                        makeSalad();
         System.out.println(salad.getCalories());
         System.out.println(salad.getIngredients());
     }
 }
 
-interface Salad{
+interface Salad {
 }
 
-interface Ingredient{}
-interface Builder{}
+interface Builder {
+}
 
 class CustomerSalad implements Salad {
     private SaladType type;
-        private EnumSet<Ingredients> ingredients;
-        private int calories;
+    private EnumSet<Ingredients> ingredients;
+    private int calories;
 
-    public  CustomerSalad(CustomerSaladBuilder builder) {
+    public CustomerSalad(CustomerSaladBuilder builder) {
         this.ingredients = builder.ingredients;
         this.calories = builder.calories;
     }
@@ -58,8 +57,7 @@ class CustomerSalad implements Salad {
     }
 
 
-
-    static class CustomerSaladBuilder implements Builder{
+    static class CustomerSaladBuilder implements Builder {
         //requirements
         // salad should have one or more base ingredients
 
@@ -72,46 +70,52 @@ class CustomerSalad implements Salad {
         }
 
         public CustomerSaladBuilder setBaseIngredient(Ingredients ingredient) {
-            if (ingredient.getType().equals(IngredientType.BASE)){
-            ingredients.add(ingredient);}
-            return this;
-        }
-        public CustomerSaladBuilder setOptionIngredient(Ingredients ingredient){
-            if (ingredient.getType().equals(IngredientType.OPTION)){
-                        ingredients.add(ingredient);}
-            return this;
-        }
-        public CustomerSaladBuilder setSauce(Ingredients ingredient){
-            if (ingredient.getType().equals(IngredientType.SAUCE)){
-                        ingredients.add(ingredient);}
+            if (ingredient.getType().equals(IngredientType.BASE)) {
+                ingredients.add(ingredient);
+            }
             return this;
         }
 
-        public CustomerSaladBuilder setSpecies(Ingredients ingredient){
-            if (ingredient.getType().equals(IngredientType.SPICE)){
-                        ingredients.add(ingredient);}
+        public CustomerSaladBuilder setOptionIngredient(Ingredients ingredient) {
+            if (ingredient.getType().equals(IngredientType.OPTION)) {
+                ingredients.add(ingredient);
+            }
+            return this;
+        }
+
+        public CustomerSaladBuilder setSauce(Ingredients ingredient) {
+            if (ingredient.getType().equals(IngredientType.SAUCE)) {
+                ingredients.add(ingredient);
+            }
+            return this;
+        }
+
+        public CustomerSaladBuilder setSpecies(Ingredients ingredient) {
+            if (ingredient.getType().equals(IngredientType.SPICE)) {
+                ingredients.add(ingredient);
+            }
             return this;
         }
 
 
         public CustomerSalad makeSalad() throws NotPossibleMakeSaladException {
             boolean isMakingSaladPossible = false;
-            for (Ingredients i:ingredients) {
-                if(i.getType().equals(IngredientType.BASE)){
+            for (Ingredients i : ingredients) {
+                if (i.getType().equals(IngredientType.BASE)) {
                     isMakingSaladPossible = true;
                 }
             }
 
-            if(isMakingSaladPossible){
+            if (isMakingSaladPossible) {
                 calories = calculateCalories(ingredients);
-                return new CustomerSalad(this);}
-            else throw new NotPossibleMakeSaladException("Salad should have at least one base ingredient");
+                return new CustomerSalad(this);
+            } else throw new NotPossibleMakeSaladException("Salad should have at least one base ingredient");
         }
 
         private int calculateCalories(EnumSet<Ingredients> ingredients) {
             int calories = 0;
-            for (Ingredients i:ingredients) {
-                calories+=i.getCalories();
+            for (Ingredients i : ingredients) {
+                calories += i.getCalories();
             }
             return calories;
         }
@@ -119,7 +123,7 @@ class CustomerSalad implements Salad {
 
 }
 
-class NotPossibleMakeSaladException extends Exception{
+class NotPossibleMakeSaladException extends Exception {
 
     public NotPossibleMakeSaladException(String message) {
         super(message);
@@ -127,17 +131,19 @@ class NotPossibleMakeSaladException extends Exception{
 }
 
 enum SaladType {
-    VEGAN, DIETARY,TRUEMAN
+    //enum for advanced checking
+    //trueman should have a lot of calories, dietary contains small amount of it, vegan shouldn't contain meat
+    VEGAN, DIETARY, TRUEMAN
 }
 
-enum IngredientType{
-    BASE,OPTION,SAUCE,SPICE
+enum IngredientType {
+    BASE, OPTION, SAUCE, SPICE
 }
 
-enum Ingredients{
-    CHEESE(500,IngredientType.BASE,false), CHICKEN(350,IngredientType.BASE,false),
-    CUCUMBER(70, IngredientType.BASE,true), TOMATO(90, IngredientType.BASE, true),
-    SUNFLOWEROIL(20, IngredientType.OPTION,true), DILL(10, IngredientType.SPICE,true),
+enum Ingredients {
+    CHEESE(500, IngredientType.BASE, false), CHICKEN(350, IngredientType.BASE, false),
+    CUCUMBER(70, IngredientType.BASE, true), TOMATO(90, IngredientType.BASE, true),
+    SUNFLOWEROIL(20, IngredientType.OPTION, true), DILL(10, IngredientType.SPICE, true),
     MAYONNAISE(300, IngredientType.SAUCE, false);
 
     private int calories;
