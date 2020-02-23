@@ -4,13 +4,22 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class SaladApp {
-    public static void main(String[] args) {
-        Salad salad
+    public static void main(String[] args) throws NotPossibleMakeSaladException {
+        CustomerSalad salad = new CustomerSalad.CustomerSaladBuilder().
+//                setBaseIngredient(Ingredients.CHEESE).
+//                setBaseIngredient(Ingredients.CHICKEN).
+                setSauce(Ingredients.MAYONNAISE).
+                setOptionIngredient(Ingredients.SUNFLOWEROIL).
+                makeSalad()
                 ;
+        System.out.println(salad.getCalories());
+        System.out.println(salad.getIngredients());
     }
 }
 
-interface Salad{}
+interface Salad{
+}
+
 interface Ingredient{}
 interface Builder{}
 
@@ -19,7 +28,7 @@ class CustomerSalad implements Salad {
         private EnumSet<Ingredients> ingredients;
         private int calories;
 
-    public CustomerSalad(CustomerSaladBuilder builder) {
+    public  CustomerSalad(CustomerSaladBuilder builder) {
         this.ingredients = builder.ingredients;
         this.calories = builder.calories;
     }
@@ -50,7 +59,7 @@ class CustomerSalad implements Salad {
 
 
 
-    class CustomerSaladBuilder implements Builder{
+    static class CustomerSaladBuilder implements Builder{
         //requirements
         // salad should have one or more base ingredients
 
@@ -62,30 +71,30 @@ class CustomerSalad implements Salad {
 
         }
 
-        Builder setBaseIngredient(Ingredients ingredient) {
+        public CustomerSaladBuilder setBaseIngredient(Ingredients ingredient) {
             if (ingredient.getType().equals(IngredientType.BASE)){
             ingredients.add(ingredient);}
             return this;
         }
-        Builder setOptionIngredient(Ingredients ingredient){
+        public CustomerSaladBuilder setOptionIngredient(Ingredients ingredient){
             if (ingredient.getType().equals(IngredientType.OPTION)){
                         ingredients.add(ingredient);}
             return this;
         }
-        Builder setSauce(Ingredients ingredient){
+        public CustomerSaladBuilder setSauce(Ingredients ingredient){
             if (ingredient.getType().equals(IngredientType.SAUCE)){
                         ingredients.add(ingredient);}
             return this;
         }
 
-        Builder setSpecies(Ingredients ingredient){
+        public CustomerSaladBuilder setSpecies(Ingredients ingredient){
             if (ingredient.getType().equals(IngredientType.SPICE)){
                         ingredients.add(ingredient);}
             return this;
         }
 
 
-        Salad makeSalad() throws NotPossibleMakeSaladException {
+        public CustomerSalad makeSalad() throws NotPossibleMakeSaladException {
             boolean isMakingSaladPossible = false;
             for (Ingredients i:ingredients) {
                 if(i.getType().equals(IngredientType.BASE)){
@@ -126,7 +135,7 @@ enum IngredientType{
 }
 
 enum Ingredients{
-    CHEESE(500,IngredientType.BASE,false), CHICKEN(350,IngredientType.OPTION,false),
+    CHEESE(500,IngredientType.BASE,false), CHICKEN(350,IngredientType.BASE,false),
     CUCUMBER(70, IngredientType.BASE,true), TOMATO(90, IngredientType.BASE, true),
     SUNFLOWEROIL(20, IngredientType.OPTION,true), DILL(10, IngredientType.SPICE,true),
     MAYONNAISE(300, IngredientType.SAUCE, false);
